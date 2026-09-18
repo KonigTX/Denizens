@@ -1,4 +1,4 @@
---[[ Rollcall census ------------------------------------------------------
+--[[ Denizens census ------------------------------------------------------
 
 Persistent population data. Every /who reply - ours, a deep scan's, or one you
 typed yourself - is folded into a saved roster, so the picture accumulates
@@ -49,14 +49,14 @@ local function defaults()
 end
 
 function Census.Init()
-    if type(RollcallDB) ~= "table" or RollcallDB.version ~= DB_VERSION then
-        RollcallDB = defaults()
+    if type(DenizensDB) ~= "table" or DenizensDB.version ~= DB_VERSION then
+        DenizensDB = defaults()
     end
-    RollcallDB.settings = RollcallDB.settings or defaults().settings
-    RollcallDB.realms = RollcallDB.realms or {}
+    DenizensDB.settings = DenizensDB.settings or defaults().settings
+    DenizensDB.realms = DenizensDB.realms or {}
     local key = realmKey()
-    RollcallDB.realms[key] = RollcallDB.realms[key] or { players = {}, scans = {} }
-    Census.db = RollcallDB.realms[key]
+    DenizensDB.realms[key] = DenizensDB.realms[key] or { players = {}, scans = {} }
+    Census.db = DenizensDB.realms[key]
     return Census.db
 end
 
@@ -71,7 +71,7 @@ end
 -- Fold a batch of sightings in. Returns how many were new, which is the only
 -- number that tells you whether a scan is still discovering anything.
 function Census.Record(rows)
-    if not RollcallDB or not RollcallDB.settings.autoRecord then return 0, 0 end
+    if not DenizensDB or not DenizensDB.settings.autoRecord then return 0, 0 end
     local store, now, new, updated = db().players, time(), 0, 0
     for _, r in ipairs(rows) do
         local p = store[r.name]
@@ -184,8 +184,8 @@ end
 
 function Census.Wipe()
     local key = realmKey()
-    RollcallDB.realms[key] = { players = {}, scans = {} }
-    Census.db = RollcallDB.realms[key]
+    DenizensDB.realms[key] = { players = {}, scans = {} }
+    Census.db = DenizensDB.realms[key]
 end
 
 --==========================================================================

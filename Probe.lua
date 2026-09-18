@@ -1,4 +1,4 @@
---[[ Rollcall probe -------------------------------------------------------
+--[[ Denizens probe -------------------------------------------------------
 
 Answers, from inside the running client, the things the real build must not
 guess at:
@@ -13,7 +13,7 @@ Nothing here touches public chat. Everything prints to your own chat frame
 only, via print(), which is local output.
 --]]
 
-local ADDON = "Rollcall"
+local ADDON = "Denizens"
 local f = CreateFrame("Frame")
 
 local function say(msg)
@@ -143,8 +143,8 @@ local function inspect(name, depth, frame)
     end
 end
 
-SLASH_RCPROBE1 = "/rcprobe"
-SlashCmdList.RCPROBE = function(msg)
+SLASH_DZPROBE1 = "/dzprobe"
+SlashCmdList.DZPROBE = function(msg)
     local cmd, rest = string.match(msg or "", "^(%S*)%s*(.*)$")
     if cmd == "inspect" then
         inspect(rest ~= "" and rest or "LFGWhoListFrame")

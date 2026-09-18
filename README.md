@@ -1,17 +1,17 @@
-# Rollcall
+# Denizens
 
 A replacement for the `/who` results list in World of Warcraft: Forever. It
 sorts, it filters, and it can see past the server's 50-result cap.
 
 Forever's `/who` pane returns a flat list of cards. You cannot sort it, you
 cannot narrow it by guild or location once it is on screen, and the full query
-syntax is available only if you already know how to type it. Rollcall rebuilds
+syntax is available only if you already know how to type it. Denizens rebuilds
 the contents of that pane — the real one, not a copy — as a sortable table, and
 adds a query builder and a saved roster.
 
 ## Install
 
-Drop the `Rollcall` folder into:
+Drop the `Denizens` folder into:
 
 ```
 World of Warcraft/_classic_beta_/Interface/AddOns/
@@ -26,7 +26,7 @@ time you open it.
 to sort, click again to reverse. Names are class-coloured. Forever's client has
 no `SortWho`, so the sorting is done locally over the returned set.
 
-**A query builder.** `/rc` opens a window with fields for name, guild and zone,
+**A query builder.** `/dz` opens a window with fields for name, guild and zone,
 dropdowns for class and race, and a level range — and it shows you the exact
 query string it is about to send, which you can edit by hand. The whole `/who`
 syntax (`n-` `g-` `z-` `r-` `c-` and level ranges) without memorising it.
@@ -44,26 +44,26 @@ pretending the list is complete.
 
 **A saved roster.** Every reply — from a scan, or from a `/who` you typed
 yourself — is folded into a per-realm roster that persists across sessions.
-`/rc census` reports it.
+`/dz census` reports it.
 
 ## Commands
 
 | | |
 | --- | --- |
-| `/rc` | open the window |
-| `/rc <query>` | search, e.g. `/rc z-"Elwynn Forest" 4-10` |
-| `/rc deep [query]` | deep scan; defaults to whatever query is on screen |
-| `/rc cancel` | stop a running scan and keep what it found |
-| `/rc census` | what the saved roster knows |
-| `/rc wipe` | clear the roster for this realm |
-| `/rc debug` | show the recent internal log |
-| `/rc takeover off` | leave Blizzard's pane alone, use the window only |
-| `/rcprobe` | print the client's `/who` API surface |
-| `/rcprobe inspect` | dump a Blizzard frame's structure |
+| `/dz` | open the window |
+| `/dz <query>` | search, e.g. `/dz z-"Elwynn Forest" 4-10` |
+| `/dz deep [query]` | deep scan; defaults to whatever query is on screen |
+| `/dz cancel` | stop a running scan and keep what it found |
+| `/dz census` | what the saved roster knows |
+| `/dz wipe` | clear the roster for this realm |
+| `/dz debug` | show the recent internal log |
+| `/dz takeover off` | leave Blizzard's pane alone, use the window only |
+| `/dzprobe` | print the client's `/who` API surface |
+| `/dzprobe inspect` | dump a Blizzard frame's structure |
 
 ## What a census can and cannot tell you
 
-Rollcall reports two numbers and they mean different things.
+Denizens reports two numbers and they mean different things.
 
 **Active** is how many characters have been seen in the last seven days. This
 is the defensible figure.
@@ -81,19 +81,19 @@ field in the client's data.
 
 ## The in-pane takeover
 
-By default Rollcall replaces the contents of Blizzard's own `/who` pane, so you
+By default Denizens replaces the contents of Blizzard's own `/who` pane, so you
 keep the native frame, border, portrait, position and ESC-to-close.
 
 That means writing to a frame that lives under `LFGParentFrame`, the Group
 Finder. Addon writes make a frame "tainted", and the game refuses to run
 *protected* actions — such as queueing for a dungeon — from a tainted path, with
 the message `Interface action failed because of an AddOn`. This has not been
-observed in Rollcall, but the mechanism is real and worth stating plainly.
+observed in Denizens, but the mechanism is real and worth stating plainly.
 
 If you would rather not take the risk:
 
 ```
-/rc takeover off
+/dz takeover off
 /reload
 ```
 
@@ -106,7 +106,7 @@ Written against Forever build `1.60.1` (`## Interface: 16001`). Forever carries
 Classic-style version numbers over a Mainline UI codebase, so the modern
 `C_FriendList` API is present while the old globals (`SendWho`, `WhoFrame`,
 `SortWho`) are gone. The client is in beta and may change under this addon; if
-something breaks, `/rcprobe` prints what the client is currently offering.
+something breaks, `/dzprobe` prints what the client is currently offering.
 
 ## Licence
 

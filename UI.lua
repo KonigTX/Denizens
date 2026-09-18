@@ -1,4 +1,4 @@
---[[ Rollcall UI ---------------------------------------------------------
+--[[ Denizens UI ---------------------------------------------------------
 
 Built from primitives on purpose. Forever removed WhoFrame, so there is no
 Blizzard who-window to reskin, and rather than bet on which other UI templates
@@ -104,7 +104,7 @@ end
 -- the window
 --==========================================================================
 
-local f = CreateFrame("Frame", "RollcallFrame", UIParent)
+local f = CreateFrame("Frame", "DenizensFrame", UIParent)
 f:SetSize(600, 536)
 f:SetPoint("CENTER")
 f:SetMovable(true)
@@ -118,7 +118,7 @@ panel(f, 0.06, 0.06, 0.07, 0.94)
 
 local title = f:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
 title:SetPoint("TOPLEFT", 12, -10)
-title:SetText("Rollcall")
+title:SetText("Denizens")
 
 local close = CreateFrame("Button", nil, f)
 close:SetSize(20, 20)
@@ -427,14 +427,14 @@ eRaw:SetScript("OnEnterPressed", function(self) self:ClearFocus(); doSearch() en
 -- entry point
 --==========================================================================
 
-SLASH_ROLLCALL1 = "/rc"
-SLASH_ROLLCALL2 = "/rollcall"
-SlashCmdList.ROLLCALL = function(msg)
+SLASH_DENIZENS1 = "/dz"
+SLASH_DENIZENS2 = "/denizens"
+SlashCmdList.DENIZENS = function(msg)
     msg = strtrim(msg or "")
     if msg == "deep" or msg:match("^deep%s") then
         -- Deep scan whatever is already on screen, including a query typed
         -- into Blizzard's own box while the takeover pane is in use. An
-        -- explicit argument wins: /rc deep z-"Elwynn Forest"
+        -- explicit argument wins: /dz deep z-"Elwynn Forest"
         local given = strtrim(msg:match("^deep%s+(.*)$") or "")
         local q = given ~= "" and given or ns.CurrentQuery()
         -- Say what it is about to do. The previous silence made a refused or
@@ -450,8 +450,8 @@ SlashCmdList.ROLLCALL = function(msg)
     end
     if msg == "debug on" or msg == "debug off" then
         ns.Census.Init()
-        RollcallDB.settings.debug = (msg == "debug on")
-        ns.say("live debug output " .. (RollcallDB.settings.debug and "ON" or "OFF"))
+        DenizensDB.settings.debug = (msg == "debug on")
+        ns.say("live debug output " .. (DenizensDB.settings.debug and "ON" or "OFF"))
         return
     end
     if msg == "cancel" or msg == "stop" then
@@ -477,22 +477,22 @@ SlashCmdList.ROLLCALL = function(msg)
     if msg == "takeover on" or msg == "takeover off" then
         local on = (msg == "takeover on")
         ns.Census.Init()          -- first run: the DB may not exist yet
-        RollcallDB.settings.takeover = on
+        DenizensDB.settings.takeover = on
         ns.say("in-pane takeover " .. (on and "ENABLED" or "DISABLED")
             .. " - /reload to apply.")
         if not on then
-            ns.say("the standalone window (/rc) touches none of Blizzard's frames.")
+            ns.say("the standalone window (/dz) touches none of Blizzard's frames.")
         end
         return
     end
     if msg == "help" then
-        ns.say("|cffffd100/rc|r               open the window")
-        ns.say("|cffffd100/rc <query>|r       search, e.g. /rc z-\"Elwynn Forest\" 4-10")
-        ns.say("|cffffd100/rc deep [query]|r  census scan, defeats the 50 cap")
-        ns.say("|cffffd100/rc cancel|r        stop a running scan")
-        ns.say("|cffffd100/rc census|r        what the saved roster knows")
-        ns.say("|cffffd100/rc wipe|r          clear the saved roster")
-        ns.say("|cffffd100/rc debug|r         show the recent internal log")
+        ns.say("|cffffd100/dz|r               open the window")
+        ns.say("|cffffd100/dz <query>|r       search, e.g. /dz z-\"Elwynn Forest\" 4-10")
+        ns.say("|cffffd100/dz deep [query]|r  census scan, defeats the 50 cap")
+        ns.say("|cffffd100/dz cancel|r        stop a running scan")
+        ns.say("|cffffd100/dz census|r        what the saved roster knows")
+        ns.say("|cffffd100/dz wipe|r          clear the saved roster")
+        ns.say("|cffffd100/dz debug|r         show the recent internal log")
         return
     end
     if msg ~= "" then

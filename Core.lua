@@ -1,4 +1,4 @@
---[[ Rollcall core -------------------------------------------------------
+--[[ Denizens core -------------------------------------------------------
 
 Query building, the send queue, result capture, sorting and the deep scan.
 No UI in this file.
@@ -16,8 +16,8 @@ not on a Classic-era wiki page:
 
 local ADDON, ns = ...
 
-Rollcall = ns
--- Must match "## Interface:" in Rollcall.toc. Kept here because
+Denizens = ns
+-- Must match "## Interface:" in Denizens.toc. Kept here because
 -- GetAddOnMetadata cannot read that field back out of the TOC.
 ns.BUILT_FOR = 16001
 ns.CAP = 50           -- the server's hard result cap; see DeepScan below
@@ -25,12 +25,12 @@ ns.MAX_LEVEL = 60
 ns.results = {}       -- array of row tables
 ns.lastQuery = ""
 
--- Output discipline: Rollcall prints ONE line at login and otherwise speaks
+-- Output discipline: Denizens prints ONE line at login and otherwise speaks
 -- only when asked a question. Everything else goes to a ring buffer that
--- /rc debug can dump. Running commentary in a shared chat frame is noise, and
+-- /dz debug can dump. Running commentary in a shared chat frame is noise, and
 -- worse, it trains you to ignore the line that actually matters.
 local function say(msg)
-    print("|cff66ccffRollcall|r " .. tostring(msg))
+    print("|cff66ccffDenizens|r " .. tostring(msg))
 end
 ns.say = say
 
@@ -40,7 +40,7 @@ function ns.log(msg)
     local line = date("%H:%M:%S") .. "  " .. tostring(msg)
     ns.logLines[#ns.logLines + 1] = line
     while #ns.logLines > 300 do table.remove(ns.logLines, 1) end
-    if RollcallDB and RollcallDB.settings and RollcallDB.settings.debug then
+    if DenizensDB and DenizensDB.settings and DenizensDB.settings.debug then
         say(msg)
     end
 end
@@ -434,7 +434,7 @@ function ns.Filter(rows, text)
 end
 
 --==========================================================================
--- The one line Rollcall is allowed to say on its own
+-- The one line Denizens is allowed to say on its own
 --==========================================================================
 -- Deliberately delayed a few seconds: the pane takeover installs after login,
 -- so reporting at PLAYER_LOGIN would announce success before the part most
@@ -463,7 +463,7 @@ startup:SetScript("OnEvent", function()
         local notes = {}
         if ns.errors > 0 then
             notes[#notes + 1] = string.format(
-                "|cffff5555%d problem%s|r - /rc debug", ns.errors,
+                "|cffff5555%d problem%s|r - /dz debug", ns.errors,
                 ns.errors == 1 and "" or "s")
         end
         if built > 0 and client > 0 and built ~= client then
@@ -472,7 +472,7 @@ startup:SetScript("OnEvent", function()
         end
 
         if #notes == 0 then
-            say(string.format("v%s loaded.  |cffffd100/rc|r for the panel, /rc help for commands.",
+            say(string.format("v%s loaded.  |cffffd100/dz|r for the panel, /dz help for commands.",
                 version))
         else
             say(string.format("v%s loaded - %s", version, table.concat(notes, "; ")))

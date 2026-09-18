@@ -1,10 +1,10 @@
---[[ Rollcall takeover ---------------------------------------------------
+--[[ Denizens takeover ---------------------------------------------------
 
-Puts Rollcall's structure INSIDE Blizzard's own /who pane instead of beside
+Puts Denizens's structure INSIDE Blizzard's own /who pane instead of beside
 it, so you keep the native chrome - portrait, NineSlice border, ESC-to-close,
 remembered position, the existing search box - and only the contents change.
 
-This is possible because /rcprobe inspect showed LFGWhoListFrame is not a pile
+This is possible because /dzprobe inspect showed LFGWhoListFrame is not a pile
 of hardcoded card frames. It is a modern ScrollBox:
 
     LFGWhoListFrame.ScrollBox          the list
@@ -216,7 +216,7 @@ function ns.RenderTakeover()
 
     frame.ScrollBox:SetDataProvider(CreateDataProvider(rows), true)
 
-    -- Just the count. The cap hint and the queue depth belong in the /rc
+    -- Just the count. The cap hint and the queue depth belong in the /dz
     -- panel, which is the surface for running and cancelling scans - in the
     -- browsing pane they were noise on every single query.
     local totals = frame.WhoFrameTotals
@@ -293,7 +293,7 @@ local function tryInstall(reason)
     -- what produces "Interface action failed because of an AddOn". So this is
     -- a setting, not a given: a user who never wants that risk can run the
     -- standalone window and touch none of Blizzard's frames.
-    if RollcallDB and RollcallDB.settings and RollcallDB.settings.takeover == false then
+    if DenizensDB and DenizensDB.settings and DenizensDB.settings.takeover == false then
         return false
     end
     local frame = _G.LFGWhoListFrame
@@ -355,8 +355,8 @@ f:SetScript("OnEvent", function(_, event)
     end
 end)
 
-SLASH_RCTAKE1 = "/rctakeover"
-SlashCmdList.RCTAKE = function()
+SLASH_DZTAKE1 = "/dztakeover"
+SlashCmdList.DZTAKE = function()
     if installed then
         say("already installed.")
     elseif not tryInstall("manual") then

@@ -1,0 +1,7 @@
+package-as: Denizens
+
+enable-nolib-creation: no
+
+ignore:
+  - .github
+  - .gitattributes
