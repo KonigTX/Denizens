@@ -4,6 +4,7 @@
 ## Author: Konig
 ## Version: 1.0.0
 ## SavedVariables: DenizensDB
+## X-Curse-Project-ID: 1700738
 ## X-Category: Social
 ## X-License: MIT
 ## IconTexture: Interface\Icons\INV_Misc_GroupLooking

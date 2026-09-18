@@ -1,0 +1,32 @@
+name: Release
+
+# Tag a version and everything else is automatic:
+#   git tag v1.0.1 && git push origin v1.0.1
+#
+# The packager reads .pkgmeta and the .toc, builds the zip with the addon
+# folder at its root, and uploads to every site it has a token for. Sites
+# without a token are simply skipped, so this works from day one with only
+# CurseForge configured.
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # The packager builds the changelog from git history, so it needs
+          # the whole thing rather than a shallow clone.
+          fetch-depth: 0
+
+      - name: Package and release
+        uses: BigWigsMods/packager@v2
+        env:
+          GITHUB_OAUTH: ${{ secrets.GITHUB_TOKEN }}
+          CF_API_KEY: ${{ secrets.CF_API_KEY }}
+          WOWI_API_TOKEN: ${{ secrets.WOWI_API_TOKEN }}
+          WAGO_API_TOKEN: ${{ secrets.WAGO_API_TOKEN }}
